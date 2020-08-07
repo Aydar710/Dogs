@@ -1,2 +1,3 @@
+include ':feature-dog-list'
 include ':app'
 rootProject.name = "Dogs"
