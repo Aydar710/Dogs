@@ -38,4 +38,5 @@ dependencies {
     implementation navigationDeps.values()
     implementation androidDeps.values()
     implementation koinDeps.values()
+    implementation viewModelLifeCycleDeps.values()
 }
