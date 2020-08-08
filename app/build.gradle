@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation project(':feature-dog-list')
+    implementation project(':data')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -38,4 +39,5 @@ dependencies {
 
     implementation androidDeps.values()
     implementation navigationDeps.values()
+    implementation koinDeps.values()
 }

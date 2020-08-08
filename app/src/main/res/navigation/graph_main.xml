@@ -2,12 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@+id/dogsFragment"
+    app:startDestination="@+id/breedsFragment"
     android:id="@+id/graph_main">
 
     <fragment
-        android:id="@+id/dogsFragment"
-        android:name="com.aydar.featuredoglist.DogsFragment"
+        android:id="@+id/breedsFragment"
+        android:name="com.aydar.featuredoglist.presentation.BreedsFragment"
         android:label="Dogs"
-        tools:layout="@layout/fragment_dogs" />
+        tools:layout="@layout/fragment_breeds" />
 </navigation>
