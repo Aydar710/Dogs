@@ -26,7 +26,9 @@ android {
 
 dependencies {
     implementation project(':feature-dog-list')
+    implementation project(':feature-breed-photo')
     implementation project(':data')
+    implementation project(':common')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

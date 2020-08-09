@@ -12,6 +12,11 @@ class DogsRepository(private val dogsService: DogsService) : IDogsRepository {
         return parseDogsResponse(response)
     }
 
+    override suspend fun getDogPhotos(breed: String): List<String>? {
+        val response = dogsService.getDogPhotos(breed)
+        return response.message
+    }
+
     private fun parseDogsResponse(response: Any): List<Dog> {
         response as LinkedTreeMap<*, *>
         val message = response["message"]

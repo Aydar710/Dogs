@@ -2,6 +2,7 @@ package com.aydar.dogs
 
 import android.app.Application
 import com.aydar.data.di.dataModule
+import com.aydar.featurebreedphoto.di.breedPhotoModule
 import com.aydar.featuredoglist.di.dogListModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -16,7 +17,8 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 dataModule,
-                dogListModule
+                dogListModule,
+                breedPhotoModule
             )
         }
 

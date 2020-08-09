@@ -49,7 +49,11 @@ class BreedsFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = BreedsAdapter()
+        adapter = BreedsAdapter {
+            //viewModel.onBreedClicked(it)
+            val action = BreedsFragmentDirections.actionBreedsFragmentToBreedPhotoFragment(it.breed)
+            findNavController().navigate(action)
+        }
         rv_breeds.adapter = adapter
     }
 }

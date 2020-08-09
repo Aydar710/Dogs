@@ -29,4 +29,8 @@ class BreedsViewModel(private val showDogsUseCase: ShowDogsUseCase) : ViewModel(
             }
         }
     }
+
+    fun onBreedClicked(dog: Dog) {
+
+    }
 }

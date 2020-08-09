@@ -10,7 +10,8 @@ import com.aydar.model.Dog
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_breed.view.*
 
-class BreedsAdapter : ListAdapter<Dog, BreedsAdapter.BreedViewHolder>(BreedDiffCallback()) {
+class BreedsAdapter(private val onBreedClicked: (Dog) -> Unit) :
+    ListAdapter<Dog, BreedsAdapter.BreedViewHolder>(BreedDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -31,12 +32,16 @@ class BreedsAdapter : ListAdapter<Dog, BreedsAdapter.BreedViewHolder>(BreedDiffC
                 dog.subBreeds?.let {
                     if (it.isNotEmpty()) {
                         bindWithSubBreeds(dog)
-                    }else{
+                    } else {
                         bindWithoutSubBreeds(dog)
                     }
                 }
             } else {
                 bindWithoutSubBreeds(dog)
+            }
+
+            containerView.setOnClickListener {
+                onBreedClicked.invoke(dog)
             }
         }
 
