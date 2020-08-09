@@ -1,7 +1,7 @@
 package com.aydar.dogs
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main.*

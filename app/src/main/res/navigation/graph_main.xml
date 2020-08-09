@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/breedsFragment"
         android:name="com.aydar.featuredoglist.presentation.BreedsFragment"
-        android:label="Dogs"
+        android:label="Breeds"
         tools:layout="@layout/fragment_breeds" />
 </navigation>

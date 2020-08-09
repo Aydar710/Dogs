@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.aydar.featuredoglist.R
 import kotlinx.android.synthetic.main.fragment_breeds.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -26,9 +30,16 @@ class BreedsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolbar()
         setupRecycler()
         setupViewModelObservers()
         viewModel.showDogs()
+    }
+
+    private fun setupToolbar() {
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        (toolbar as Toolbar).setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun setupViewModelObservers() {
