@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aydar.featurebreedphoto.BreedPhotoCommands
 import com.aydar.featurebreedphoto.R
@@ -51,6 +52,9 @@ class BreedPhotoFragment : Fragment() {
                 val image = carouselAdapter?.currentImage
                 image?.let { viewModel.onShareActionClicked(it) }
             }
+            android.R.id.home -> {
+                findNavController().navigate(R.id.back_to_breeds_fragment)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -64,6 +68,12 @@ class BreedPhotoFragment : Fragment() {
             when (it) {
                 is BreedPhotoCommands.ShareImage -> {
                     shareImage(it.uri)
+                }
+                is BreedPhotoCommands.ShowProgress -> {
+                    showProgress()
+                }
+                is BreedPhotoCommands.HideProgress -> {
+                    hideProgress()
                 }
             }
         })
@@ -84,6 +94,14 @@ class BreedPhotoFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         setHasOptionsMenu(true)
+    }
+
+    private fun showProgress() {
+        pb_breed_photos.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        pb_breed_photos.visibility = View.GONE
     }
 
     override fun onDestroy() {

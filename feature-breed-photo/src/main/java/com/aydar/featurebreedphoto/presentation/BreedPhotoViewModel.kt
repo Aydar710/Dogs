@@ -34,7 +34,9 @@ class BreedPhotoViewModel(
     fun showDogPhotos(breed: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                _event.postValue(BreedPhotoCommands.ShowProgress)
                 val photos = showDogPhotosUseCase.invoke(breed)
+                _event.postValue(BreedPhotoCommands.HideProgress)
                 _photosLiveData.postValue(photos)
             }
         }
