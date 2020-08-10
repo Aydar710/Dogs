@@ -1,6 +1,7 @@
 package com.aydar.featurebreedphoto.presentation
 
 import android.view.LayoutInflater
+import android.widget.ImageView
 import com.aydar.featurebreedphoto.R
 import com.aydar.model.Photo
 import com.squareup.picasso.Picasso
@@ -8,23 +9,29 @@ import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ViewListener
 import kotlinx.android.synthetic.main.item_breed_photo.view.*
 
-//TODO: Fix memory leak
 class CarouselAdapter(
-    private val carouselView: CarouselView,
-    private val inflater: LayoutInflater,
+    private var carouselView: CarouselView?,
+    private var inflater: LayoutInflater?,
     private val onLikeClicked: (Photo) -> Unit
 ) {
+
+    val currentImage: ImageView?
+        get() {
+            return images[carouselView?.currentItem!!]
+        }
+
+    private val images = mutableListOf<ImageView>()
 
     fun submitPhotos(photos: List<Photo>) {
         val viewListener = setupViewListener(photos)
 
-        carouselView.setViewListener(viewListener)
-        carouselView.pageCount = photos.size
+        carouselView?.setViewListener(viewListener)
+        carouselView?.pageCount = photos.size
     }
 
     private fun setupViewListener(photos: List<Photo>): ViewListener {
         return ViewListener { position ->
-            val photoView = inflater.inflate(R.layout.item_breed_photo, null)
+            val photoView = inflater!!.inflate(R.layout.item_breed_photo, null)
 
             with(photoView) {
                 Picasso.get()
@@ -46,8 +53,16 @@ class CarouselAdapter(
                         iv_like.setImageResource(R.drawable.ic_like)
                     }
                 }
+
+                images.add(iv_breed_photo)
             }
             photoView
         }
+    }
+
+    fun clearResources(){
+        carouselView = null
+        inflater = null
+        images.clear()
     }
 }
