@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.aydar.featurebreedphoto.BreedPhotoCommands
+import com.aydar.featurebreedphoto.BreedPhotoEvents
 import com.aydar.featurebreedphoto.R
 import kotlinx.android.synthetic.main.fragment_breed_photo.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -20,6 +19,7 @@ class BreedPhotoFragment : Fragment() {
 
     private val viewModel: BreedPhotoViewModel by viewModel()
     private var carouselAdapter: CarouselAdapter? = null
+    private val args: BreedPhotoFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,6 @@ class BreedPhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args: BreedPhotoFragmentArgs by navArgs()
         viewModel.args = args
         carouselAdapter = CarouselAdapter(carouselView, layoutInflater) {
             viewModel.handlePhotoLike(it)
@@ -53,7 +52,7 @@ class BreedPhotoFragment : Fragment() {
                 image?.let { viewModel.onShareActionClicked(it) }
             }
             android.R.id.home -> {
-                findNavController().navigate(R.id.back_to_breeds_fragment)
+                activity?.onBackPressed()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -66,13 +65,13 @@ class BreedPhotoFragment : Fragment() {
 
         viewModel.event.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is BreedPhotoCommands.ShareImage -> {
+                is BreedPhotoEvents.ShareImage -> {
                     shareImage(it.uri)
                 }
-                is BreedPhotoCommands.ShowProgress -> {
+                is BreedPhotoEvents.ShowProgress -> {
                     showProgress()
                 }
-                is BreedPhotoCommands.HideProgress -> {
+                is BreedPhotoEvents.HideProgress -> {
                     hideProgress()
                 }
             }
@@ -90,10 +89,14 @@ class BreedPhotoFragment : Fragment() {
         val toolbar = inc_toolbar as Toolbar
         toolbar.setTitleTextColor(Color.BLACK)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        toolbar.title = breed
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         setHasOptionsMenu(true)
+        if (args.isSubbreed) {
+            toolbar.title = args.subbreed
+        } else {
+            toolbar.title = breed
+        }
     }
 
     private fun showProgress() {

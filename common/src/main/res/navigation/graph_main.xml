@@ -18,6 +18,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_breedsFragment_to_subbreedsFragment"
+            app:destination="@id/subreedsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
@@ -30,9 +38,38 @@
             android:defaultValue=""
             app:argType="string" />
 
+        <argument
+            android:name="subbreed"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="isSubbreed"
+            android:defaultValue="false"
+            app:argType="boolean"/>
+
         <action
             android:id="@+id/back_to_breeds_fragment"
             app:popUpTo="@id/breedsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/subreedsFragment"
+        android:name="com.aydar.featuresubbreeds.presentation.SubbreedsFragment"
+        android:label="SubbreedsFragment">
+
+        <argument
+            android:name="dog"
+            app:argType="com.aydar.model.Dog" />
+
+        <action
+            android:id="@+id/action_subbreedsFragment_to_breedPhotoFragment"
+            app:destination="@id/breedPhotoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 </navigation>

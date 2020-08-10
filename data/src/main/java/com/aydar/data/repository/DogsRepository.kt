@@ -12,8 +12,23 @@ class DogsRepository(private val dogsService: DogsService) : IDogsRepository {
         return parseDogsResponse(response)
     }
 
-    override suspend fun getDogPhotos(breed: String): List<String>? {
-        val response = dogsService.getDogPhotos(breed)
+    override suspend fun getBreedPhotos(breed: String): List<String>? {
+        try {
+            val response = dogsService.getbreedPhotos(breed)
+            return response.message
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    override suspend fun getSubbreedPhotos(breed: String, subbreed: String): List<String>? {
+        val response = dogsService.getSubbreedPhotos(breed, subbreed)
+        return response.message
+    }
+
+    override suspend fun getSubbreeds(breed: String): List<String>? {
+        val response = dogsService.getSubbreeds(breed)
         return response.message
     }
 

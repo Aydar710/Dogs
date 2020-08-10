@@ -4,13 +4,13 @@ import com.aydar.core.repository.IDogsRepository
 import com.aydar.core.repository.ILikedPhotosRepository
 import com.aydar.model.Photo
 
-class ShowDogPhotosUseCase(
+class ShowBreedPhotosUseCase(
     private val dogsRepository: IDogsRepository,
     private val photosRepository: ILikedPhotosRepository
 ) {
 
     suspend fun invoke(breed: String): List<Photo> {
-        val photoUrls = dogsRepository.getDogPhotos(breed)
+        val photoUrls = dogsRepository.getBreedPhotos(breed)
         val likedPhotos = photosRepository.getLikedPhotos(breed)
         val likedPhotoUrls = likedPhotos.map {
             it.url

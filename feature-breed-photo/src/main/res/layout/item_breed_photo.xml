@@ -8,6 +8,7 @@
         android:id="@+id/iv_breed_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:src="@drawable/placeholder"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

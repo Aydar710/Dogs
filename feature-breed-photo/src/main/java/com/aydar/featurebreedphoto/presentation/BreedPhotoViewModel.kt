@@ -6,20 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aydar.common.SingleLiveEvent
-import com.aydar.featurebreedphoto.BreedPhotoCommands
-import com.aydar.featurebreedphoto.domain.DeletePhotoLikeUseCase
-import com.aydar.featurebreedphoto.domain.ImageSaver
-import com.aydar.featurebreedphoto.domain.SavePhotoLikeUseCase
-import com.aydar.featurebreedphoto.domain.ShowDogPhotosUseCase
+import com.aydar.featurebreedphoto.BreedPhotoEvents
+import com.aydar.featurebreedphoto.domain.*
 import com.aydar.model.Photo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class BreedPhotoViewModel(
-    private val showDogPhotosUseCase: ShowDogPhotosUseCase,
+    private val showBreedPhotosUseCase: ShowBreedPhotosUseCase,
     private val savePhotoLikeUseCase: SavePhotoLikeUseCase,
     private val deletePhotoLikeUseCase: DeletePhotoLikeUseCase,
+    private val showSubbreedPhotosUseCase: ShowSubbreedPhotosUseCase,
     private val imageSaver: ImageSaver
 ) : ViewModel() {
 
@@ -28,16 +26,27 @@ class BreedPhotoViewModel(
     private val _photosLiveData = MutableLiveData<List<Photo>>()
     val photosLiveData: LiveData<List<Photo>> = _photosLiveData
 
-    private val _event = SingleLiveEvent<BreedPhotoCommands>()
-    val event: LiveData<BreedPhotoCommands> = _event
+    private val _event = SingleLiveEvent<BreedPhotoEvents>()
+    val event: LiveData<BreedPhotoEvents> = _event
 
     fun showDogPhotos(breed: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _event.postValue(BreedPhotoCommands.ShowProgress)
-                val photos = showDogPhotosUseCase.invoke(breed)
-                _event.postValue(BreedPhotoCommands.HideProgress)
-                _photosLiveData.postValue(photos)
+        if (args.isSubbreed) {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    _event.postValue(BreedPhotoEvents.ShowProgress)
+                    val photos = showSubbreedPhotosUseCase.invoke(args.breedName, args.subbreed)
+                    _event.postValue(BreedPhotoEvents.HideProgress)
+                    _photosLiveData.postValue(photos)
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    _event.postValue(BreedPhotoEvents.ShowProgress)
+                    val photos = showBreedPhotosUseCase.invoke(breed)
+                    _event.postValue(BreedPhotoEvents.HideProgress)
+                    _photosLiveData.postValue(photos)
+                }
             }
         }
     }
@@ -55,7 +64,7 @@ class BreedPhotoViewModel(
             val uri = imageSaver.saveImage(image)
 
             withContext(Dispatchers.Main) {
-                _event.value = uri?.let { BreedPhotoCommands.ShareImage(it) }
+                _event.value = uri?.let { BreedPhotoEvents.ShareImage(it) }
             }
         }
     }

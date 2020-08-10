@@ -27,6 +27,7 @@ android {
 dependencies {
     implementation project(':feature-dog-list')
     implementation project(':feature-breed-photo')
+    implementation project(':feature-subbreeds')
     implementation project(':data')
     implementation project(':common')
 

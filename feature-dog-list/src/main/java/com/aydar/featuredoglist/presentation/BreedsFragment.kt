@@ -10,7 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.aydar.featuredoglist.BreedsEvents
 import com.aydar.featuredoglist.R
+import com.aydar.model.Dog
 import kotlinx.android.synthetic.main.fragment_breeds.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -46,13 +48,32 @@ class BreedsFragment : Fragment() {
         viewModel.dogsLiveData.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+
+        viewModel.events.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is BreedsEvents.NavigateToBreedPhotos -> {
+                    navigateToBreedPhoto(it.dog)
+                }
+                is BreedsEvents.NavigateToSubbreeds -> {
+                    navigateToSubbreeds(it.dog)
+                }
+            }
+        })
+    }
+
+    private fun navigateToBreedPhoto(dog : Dog) {
+        val action = BreedsFragmentDirections.actionBreedsFragmentToBreedPhotoFragment(dog.breed)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToSubbreeds(dog : Dog){
+        val action = BreedsFragmentDirections.actionBreedsFragmentToSubbreedsFragment(dog)
+        findNavController().navigate(action)
     }
 
     private fun setupRecycler() {
         adapter = BreedsAdapter {
-            //viewModel.onBreedClicked(it)
-            val action = BreedsFragmentDirections.actionBreedsFragmentToBreedPhotoFragment(it.breed)
-            findNavController().navigate(action)
+            viewModel.onBreedClicked(it)
         }
         rv_breeds.adapter = adapter
     }
