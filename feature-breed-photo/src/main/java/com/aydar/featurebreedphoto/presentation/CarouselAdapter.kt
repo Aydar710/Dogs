@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import com.aydar.featurebreedphoto.R
 import com.aydar.model.Photo
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ViewListener
 import kotlinx.android.synthetic.main.item_breed_photo.view.*
@@ -34,8 +34,10 @@ class CarouselAdapter(
             val photoView = inflater!!.inflate(R.layout.item_breed_photo, null)
 
             with(photoView) {
-                Picasso.get()
+                Glide.with(photoView)
                     .load(photos[position].url)
+                    .thumbnail(0.1f)
+                    .placeholder(R.drawable.placeholder)
                     .into(iv_breed_photo)
 
                 if (photos[position].isLiked) {
