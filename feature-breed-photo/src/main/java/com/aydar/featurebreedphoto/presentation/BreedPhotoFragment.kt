@@ -29,8 +29,11 @@ class BreedPhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        carouselAdapter = CarouselAdapter(carouselView)
         val args: BreedPhotoFragmentArgs by navArgs()
+        viewModel.args = args
+        carouselAdapter = CarouselAdapter(carouselView, layoutInflater) {
+            viewModel.handlePhotoLike(it)
+        }
         setupViewModelObservers()
         viewModel.showDogPhotos(args.breedName)
         setupToolbar(args.breedName)
@@ -42,7 +45,7 @@ class BreedPhotoFragment : Fragment() {
         })
     }
 
-    private fun setupToolbar(breed : String) {
+    private fun setupToolbar(breed: String) {
         val toolbar = inc_toolbar as Toolbar
         toolbar.setTitleTextColor(Color.BLACK)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
