@@ -12,7 +12,7 @@ class LikedPhotosRepository(private val db: FirebaseFirestore) : ILikedPhotosRep
             .document(breed)
             .collection(COLLECTION_LIKED_PHOTOS)
             .document(getDocumentUidFromPhotoUrl(photoUrl))
-            .set(LikedPhoto(photoUrl))
+            .set(LikedPhoto(breed = breed, url = photoUrl))
             .await()
     }
 
@@ -25,10 +25,17 @@ class LikedPhotosRepository(private val db: FirebaseFirestore) : ILikedPhotosRep
             .await()
     }
 
-    override suspend fun getLikedPhotos(breed: String): MutableList<LikedPhoto> {
+    override suspend fun getLikedPhotosByBreed(breed: String): List<LikedPhoto> {
         return db.collection(COLLECTION_BREEDS)
             .document(breed)
             .collection(COLLECTION_LIKED_PHOTOS)
+            .get()
+            .await()
+            .toObjects(LikedPhoto::class.java)
+    }
+
+    override suspend fun getAllLikedPhotos(): List<LikedPhoto> {
+        return db.collectionGroup(COLLECTION_LIKED_PHOTOS)
             .get()
             .await()
             .toObjects(LikedPhoto::class.java)

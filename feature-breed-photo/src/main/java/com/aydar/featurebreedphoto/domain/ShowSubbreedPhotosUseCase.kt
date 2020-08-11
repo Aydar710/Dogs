@@ -11,7 +11,7 @@ class ShowSubbreedPhotosUseCase(
 
     suspend fun invoke(breed: String, subbreed: String): List<Photo> {
         val photoUrls = dogsRepository.getSubbreedPhotos(breed, subbreed)
-        val likedPhotos = photosRepository.getLikedPhotos(breed)
+        val likedPhotos = photosRepository.getLikedPhotosByBreed(breed)
         val likedPhotoUrls = likedPhotos.map {
             it.url
         }

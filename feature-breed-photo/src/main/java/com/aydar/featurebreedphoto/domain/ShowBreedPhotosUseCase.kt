@@ -11,7 +11,7 @@ class ShowBreedPhotosUseCase(
 
     suspend fun invoke(breed: String): List<Photo> {
         val photoUrls = dogsRepository.getBreedPhotos(breed)
-        val likedPhotos = photosRepository.getLikedPhotos(breed)
+        val likedPhotos = photosRepository.getLikedPhotosByBreed(breed)
         val likedPhotoUrls = likedPhotos.map {
             it.url
         }
