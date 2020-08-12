@@ -1,4 +1,4 @@
-package com.aydar.featurebreedphoto.domain
+package com.aydar.common.domain
 
 import android.content.Context
 import android.graphics.Bitmap

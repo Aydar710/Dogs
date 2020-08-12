@@ -23,6 +23,11 @@ class FavouritePhotosAdapter(
     private val onLikeClicked: (LikedPhoto) -> Unit
 ) {
 
+    val currentImage: ImageView?
+        get() {
+            return images[carouselView?.currentItem!!]
+        }
+
     private val images = mutableListOf<ImageView>()
 
     fun submitPhotos(items: List<LikedPhoto>) {
