@@ -29,6 +29,7 @@ dependencies {
     implementation project(':feature-breed-photo')
     implementation project(':feature-subbreeds')
     implementation project(':feature-favourites')
+    implementation project(':feature-favourie-photos')
     implementation project(':data')
     implementation project(':common')
 

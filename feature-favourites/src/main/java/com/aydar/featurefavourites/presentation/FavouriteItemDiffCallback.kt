@@ -1,7 +1,7 @@
 package com.aydar.featurefavourites.presentation
 
 import androidx.recyclerview.widget.DiffUtil
-import com.aydar.featurefavourites.FavouriteItem
+import com.aydar.common.FavouriteItem
 
 class FavouriteItemDiffCallback : DiffUtil.ItemCallback<FavouriteItem>() {
 

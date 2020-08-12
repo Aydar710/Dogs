@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.aydar.featurefavourites.FavouriteItem
+import com.aydar.common.FavouriteItem
 import com.aydar.featurefavourites.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_breed.view.*
 
-class FavouritesAdapter :
+class FavouritesAdapter(private val onItemClicked: (FavouriteItem) -> Unit) :
     ListAdapter<FavouriteItem, FavouritesAdapter.BreedViewHolder>(FavouriteItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedViewHolder {
@@ -36,6 +36,10 @@ class FavouritesAdapter :
                     if (it > 1) {
                         tv_breed.text = "${item.breed} (${item.likedPhotos?.size} photos)"
                     }
+                }
+
+                setOnClickListener {
+                    onItemClicked.invoke(item)
                 }
             }
         }

@@ -6,8 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aydar.common.SingleLiveEvent
+import com.aydar.common.domain.DeletePhotoLikeUseCase
+import com.aydar.common.domain.SavePhotoLikeUseCase
 import com.aydar.featurebreedphoto.BreedPhotoEvents
-import com.aydar.featurebreedphoto.domain.*
+import com.aydar.featurebreedphoto.domain.ImageSaver
+import com.aydar.featurebreedphoto.domain.ShowBreedPhotosUseCase
+import com.aydar.featurebreedphoto.domain.ShowSubbreedPhotosUseCase
 import com.aydar.model.Photo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

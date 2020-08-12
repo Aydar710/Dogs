@@ -1,12 +1,12 @@
-package com.aydar.featurebreedphoto.presentation
+package com.aydar.featurefavouriephotos.presentation
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import com.aydar.featurebreedphoto.R
-import com.aydar.model.Photo
+import com.aydar.featurefavouriephotos.R
+import com.aydar.model.LikedPhoto
 import com.bumptech.glide.Glide
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ViewListener
@@ -17,27 +17,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
-class CarouselAdapter(
+class FavouritePhotosAdapter(
     private var carouselView: CarouselView?,
     private var inflater: LayoutInflater?,
-    private val onLikeClicked: (Photo) -> Unit
+    private val onLikeClicked: (LikedPhoto) -> Unit
 ) {
-
-    val currentImage: ImageView?
-        get() {
-            return images[carouselView?.currentItem!!]
-        }
 
     private val images = mutableListOf<ImageView>()
 
-    fun submitPhotos(photos: List<Photo>) {
-        val viewListener = setupViewListener(photos)
+    fun submitPhotos(items: List<LikedPhoto>) {
+        val viewListener = setupViewListener(items)
 
         carouselView?.setViewListener(viewListener)
-        carouselView?.pageCount = photos.size
+        carouselView?.pageCount = items.size
     }
 
-    private fun setupViewListener(photos: List<Photo>): ViewListener {
+    private fun setupViewListener(photos: List<LikedPhoto>): ViewListener {
         return ViewListener { position ->
             val photoView = inflater!!.inflate(R.layout.item_breed_photo, null)
 
@@ -50,7 +45,7 @@ class CarouselAdapter(
                     iv_like.setImageResource(R.drawable.ic_like)
                 }
 
-                photoView.iv_like.setOnClickListener {
+                iv_like.setOnClickListener {
                     photos[position].isLiked = !photos[position].isLiked
                     onLikeClicked.invoke(photos[position])
                     if (photos[position].isLiked) {
@@ -68,7 +63,7 @@ class CarouselAdapter(
 
     private fun loadImage(
         photoView: View,
-        photos: List<Photo>,
+        photos: List<LikedPhoto>,
         position: Int
     ) {
         GlobalScope.launch {

@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.aydar.common.FavouriteItem
 import com.aydar.featurefavourites.R
 import kotlinx.android.synthetic.main.fragment_favourites.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -40,13 +42,22 @@ class FavouritesFragment : Fragment() {
         })
     }
 
-    private fun setupRecycler(){
-        adapter = FavouritesAdapter()
+    private fun setupRecycler() {
+        adapter = FavouritesAdapter() {
+            navigateToFavouritePhotos(it)
+        }
         rv_favourites.adapter = adapter
     }
 
     private fun setupToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (toolbar as Toolbar).title = getString(R.string.favourites)
+    }
+
+    private fun navigateToFavouritePhotos(favouriteItem: FavouriteItem) {
+        val action = FavouritesFragmentDirections.actionFavouritesFragmentToFavouritePhotosFragment(
+            favouriteItem
+        )
+        findNavController().navigate(action)
     }
 }

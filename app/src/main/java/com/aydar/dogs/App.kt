@@ -1,9 +1,11 @@
 package com.aydar.dogs
 
 import android.app.Application
+import com.aydar.common.di.commonModule
 import com.aydar.data.di.dataModule
 import com.aydar.featurebreedphoto.di.breedPhotoModule
 import com.aydar.featuredoglist.di.dogListModule
+import com.aydar.featurefavouriephotos.di.favouritePhotosModule
 import com.aydar.featurefavourites.di.favouritesModule
 import com.aydar.featuresubbreeds.di.subbreedsModule
 import org.koin.android.ext.koin.androidContext
@@ -22,7 +24,9 @@ class App : Application() {
                 dogListModule,
                 breedPhotoModule,
                 subbreedsModule,
-                favouritesModule
+                favouritesModule,
+                favouritePhotosModule,
+                commonModule
             )
         }
 

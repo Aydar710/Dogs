@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aydar.featurefavourites.FavouriteItem
+import com.aydar.common.FavouriteItem
 import com.aydar.featurefavourites.domain.ShowAllLikedPhotosUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FavouritesViewModel(private val showAllLikedPhotosUseCase: ShowAllLikedPhotosUseCase) :
     ViewModel() {
@@ -16,15 +18,22 @@ class FavouritesViewModel(private val showAllLikedPhotosUseCase: ShowAllLikedPho
 
     fun showBreeds() {
         viewModelScope.launch {
-            val likedPhotos = showAllLikedPhotosUseCase.invoke()
-            val photosMap = likedPhotos.groupBy {
-                it.breed
+            withContext(Dispatchers.IO) {
+                val likedPhotos = showAllLikedPhotosUseCase.invoke()
+                val photosMap = likedPhotos.groupBy {
+                    it.breed
+                }
+                val favouriteItems = mutableListOf<FavouriteItem>()
+                photosMap.keys.forEach {
+                    favouriteItems.add(
+                        FavouriteItem(
+                            it,
+                            photosMap[it]
+                        )
+                    )
+                }
+                _favouriteItems.postValue(favouriteItems)
             }
-            val favouriteItems = mutableListOf<FavouriteItem>()
-            photosMap.keys.forEach {
-                favouriteItems.add(FavouriteItem(it, photosMap[it]))
-            }
-            _favouriteItems.postValue(favouriteItems)
         }
     }
 }

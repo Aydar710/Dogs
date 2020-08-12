@@ -1,4 +1,4 @@
-package com.aydar.featurebreedphoto.domain
+package com.aydar.common.domain
 
 import com.aydar.core.repository.ILikedPhotosRepository
 

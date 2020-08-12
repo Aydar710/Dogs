@@ -1,3 +1,4 @@
+include ':feature-favourie-photos'
 include ':feature-favourites'
 include ':feature-subbreeds'
 include ':feature-breed-photo'

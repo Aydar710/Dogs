@@ -33,6 +33,9 @@
         android:name="com.aydar.featurefavourites.presentation.FavouritesFragment"
         android:label="Favourites">
 
+        <action
+            android:id="@+id/action_favouritesFragment_toFavouritePhotosFragment"
+            app:destination="@id/favouritePhotosFragment" />
     </fragment>
 
     <fragment
@@ -77,6 +80,17 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/favouritePhotosFragment"
+        android:name="com.aydar.featurefavouriephotos.presentation.FavouritePhotosFragment"
+        android:label="FavouritePhotos">
+
+        <argument
+            android:name="favouriteItem"
+            app:argType="com.aydar.common.FavouriteItem"/>
 
     </fragment>
 </navigation>
