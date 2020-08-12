@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.aydar.common.FavouriteItem
+import com.aydar.featurefavourites.FavouriteEvents
 import com.aydar.featurefavourites.R
 import kotlinx.android.synthetic.main.fragment_favourites.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -40,6 +41,13 @@ class FavouritesFragment : Fragment() {
         viewModel.favouriteItems.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+
+        viewModel.event.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is FavouriteEvents.ShowProgress -> showProgress()
+                is FavouriteEvents.HideProgress -> hideProgress()
+            }
+        })
     }
 
     private fun setupRecycler() {
@@ -59,5 +67,13 @@ class FavouritesFragment : Fragment() {
             favouriteItem
         )
         findNavController().navigate(action)
+    }
+
+    private fun showProgress() {
+        pb_favourites.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        pb_favourites.visibility = View.GONE
     }
 }
