@@ -20,15 +20,19 @@ class BreedsViewModel(private val showDogsUseCase: ShowDogsUseCase) : ViewModel(
     val dogsLiveData: LiveData<List<Dog>> = _dogsLiveData
 
     private val _events = SingleLiveEvent<BreedsEvents>()
-    val events : LiveData<BreedsEvents> = _events
+    val events: LiveData<BreedsEvents> = _events
 
     fun showDogs() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
+                    _events.postValue(BreedsEvents.ShowProgress)
                     val dogs = showDogsUseCase.invoke()
                     _dogsLiveData.postValue(dogs)
+                    _events.postValue(BreedsEvents.HideProgress)
                 } catch (e: Exception) {
+                    _events.postValue(BreedsEvents.ShowError)
+                    _events.postValue(BreedsEvents.HideProgress)
                     Log.e(TAG, "Error when retrieving dogs", e)
                 }
             }

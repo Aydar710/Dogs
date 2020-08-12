@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.aydar.common.showLoadingErrorDialog
 import com.aydar.featuredoglist.BreedsEvents
 import com.aydar.featuredoglist.R
 import com.aydar.model.Dog
@@ -50,23 +51,26 @@ class BreedsFragment : Fragment() {
         })
 
         viewModel.events.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is BreedsEvents.NavigateToBreedPhotos -> {
                     navigateToBreedPhoto(it.dog)
                 }
                 is BreedsEvents.NavigateToSubbreeds -> {
                     navigateToSubbreeds(it.dog)
                 }
+                is BreedsEvents.ShowProgress -> showProgress()
+                is BreedsEvents.HideProgress -> hideProgress()
+                is BreedsEvents.ShowError -> showError()
             }
         })
     }
 
-    private fun navigateToBreedPhoto(dog : Dog) {
+    private fun navigateToBreedPhoto(dog: Dog) {
         val action = BreedsFragmentDirections.actionBreedsFragmentToBreedPhotoFragment(dog.breed)
         findNavController().navigate(action)
     }
 
-    private fun navigateToSubbreeds(dog : Dog){
+    private fun navigateToSubbreeds(dog: Dog) {
         val action = BreedsFragmentDirections.actionBreedsFragmentToSubbreedsFragment(dog)
         findNavController().navigate(action)
     }
@@ -76,5 +80,17 @@ class BreedsFragment : Fragment() {
             viewModel.onBreedClicked(it)
         }
         rv_breeds.adapter = adapter
+    }
+
+    private fun showProgress() {
+        pb_breeds.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        pb_breeds.visibility = View.GONE
+    }
+
+    private fun showError() {
+        showLoadingErrorDialog()
     }
 }

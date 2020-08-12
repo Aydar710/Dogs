@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.aydar.common.FavouriteItem
+import com.aydar.common.showLoadingErrorDialog
 import com.aydar.featurefavourites.FavouriteEvents
 import com.aydar.featurefavourites.R
 import kotlinx.android.synthetic.main.fragment_favourites.*
@@ -43,9 +44,10 @@ class FavouritesFragment : Fragment() {
         })
 
         viewModel.event.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is FavouriteEvents.ShowProgress -> showProgress()
                 is FavouriteEvents.HideProgress -> hideProgress()
+                is FavouriteEvents.ShowError -> showError()
             }
         })
     }
@@ -75,5 +77,9 @@ class FavouritesFragment : Fragment() {
 
     private fun hideProgress() {
         pb_favourites.visibility = View.GONE
+    }
+
+    private fun showError() {
+        showLoadingErrorDialog()
     }
 }

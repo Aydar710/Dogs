@@ -24,22 +24,27 @@ class FavouritesViewModel(private val showAllLikedPhotosUseCase: ShowAllLikedPho
     fun showBreeds() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _event.postValue(FavouriteEvents.ShowProgress)
-                val likedPhotos = showAllLikedPhotosUseCase.invoke()
-                val photosMap = likedPhotos.groupBy {
-                    it.breed
-                }
-                val favouriteItems = mutableListOf<FavouriteItem>()
-                photosMap.keys.forEach {
-                    favouriteItems.add(
-                        FavouriteItem(
-                            it,
-                            photosMap[it]
+                try {
+                    _event.postValue(FavouriteEvents.ShowProgress)
+                    val likedPhotos = showAllLikedPhotosUseCase.invoke()
+                    val photosMap = likedPhotos.groupBy {
+                        it.breed
+                    }
+                    val favouriteItems = mutableListOf<FavouriteItem>()
+                    photosMap.keys.forEach {
+                        favouriteItems.add(
+                            FavouriteItem(
+                                it,
+                                photosMap[it]
+                            )
                         )
-                    )
+                    }
+                    _favouriteItems.postValue(favouriteItems)
+                    _event.postValue(FavouriteEvents.HideProgress)
+                } catch (e: Exception) {
+                    _event.postValue(FavouriteEvents.ShowError)
+                    _event.postValue(FavouriteEvents.HideProgress)
                 }
-                _favouriteItems.postValue(favouriteItems)
-                _event.postValue(FavouriteEvents.HideProgress)
             }
         }
     }
