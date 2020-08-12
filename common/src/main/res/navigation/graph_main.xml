@@ -12,7 +12,11 @@
 
         <action
             android:id="@+id/action_breedsFragment_to_breedPhotoFragment"
-            app:destination="@id/breedPhotoFragment" />
+            app:destination="@id/breedPhotoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/action_breedsFragment_to_subbreedsFragment"
@@ -35,7 +39,11 @@
 
         <action
             android:id="@+id/action_favouritesFragment_toFavouritePhotosFragment"
-            app:destination="@id/favouritePhotosFragment" />
+            app:destination="@id/favouritePhotosFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -90,7 +98,7 @@
 
         <argument
             android:name="favouriteItem"
-            app:argType="com.aydar.common.FavouriteItem"/>
+            app:argType="com.aydar.common.FavouriteItem" />
 
     </fragment>
 </navigation>
